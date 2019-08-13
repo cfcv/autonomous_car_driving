@@ -8,7 +8,7 @@ from PIL import Image
 from keras.models import load_model
 import numpy as np
 import matplotlib.pyplot as plt
-from model import pre_process
+import training_utils as TU
 
 server = socketio.Server()
 
@@ -29,9 +29,7 @@ MIN_SPEED = 15
 
 @server.on('telemetry')
 def telemetry(sid, data):
-    print('chamou a função')
     if data:
-        print('DATA')
         steering_angle = float(data["steering_angle"])
         throttle = float(data["throttle"])
         speed = float(data["speed"])
@@ -39,7 +37,7 @@ def telemetry(sid, data):
         image = Image.open(BytesIO(base64.b64decode(data["image"])))
 
         image = np.asarray(image)
-        image = pre_process(image)
+        image = TU.pre_process(image)
         image = np.array([image]) #get a 4D tensor
         #print(image.shape)
         #plt.imshow(image)
@@ -60,6 +58,6 @@ def telemetry(sid, data):
         server.emit("manual", data={}, skip_sid=True)
 
 if __name__ == '__main__':
-    model = load_model("no_train.h5")
+    model = load_model("track1_20_epochs_elu.h5")
     app = socketio.Middleware(server, app)
     eventlet.wsgi.server(eventlet.listen(('', 4567)), app)
