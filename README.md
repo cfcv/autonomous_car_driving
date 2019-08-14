@@ -1,9 +1,9 @@
 # autonomous_car_driving
-##Introduction
+## Introduction
 The goal of this project was implement the NVIDIA paper:
 using behavioral cloning to make an End-to-End self-driving car with the Udacity simulator:
 
-##Track 1
+## Track 1
 *   The Udacity self-driving car simulator provides two tracks, the track 1 is the easy one. So we drive the car manually to get data(images from the cameras and steering angles)from 3 to 4 laps.
 
 *   The front cameras images will serve as input to our model and it will
@@ -15,5 +15,5 @@ what gave me a good result but the car was not able to do the final right turn b
 *   To correct this data imbalance problem i used data augmentation and this
 is the result:
 
-##Track 2
+## Track 2
 * 
