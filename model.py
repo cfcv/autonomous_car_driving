@@ -33,25 +33,25 @@ def build_model():
 
     norm = Lambda(lambda x: x/127.5-1.0)(inputs)
 
-    convs = Conv2D(24, kernel_size=(5,5), strides=(2,2), activation='relu')(norm)
-    #convs = BatchNormalization()(convs)
-    #convs = Activation('relu')(convs)
+    convs = Conv2D(24, kernel_size=(5,5), strides=(2,2))(norm)
+    convs = BatchNormalization()(convs)
+    convs = Activation('relu')(convs)
 
-    convs = Conv2D(36, kernel_size=(5,5), strides=(2,2), activation='relu')(convs)
-    #convs = BatchNormalization()(convs)
-    #convs = Activation('relu')(convs)
+    convs = Conv2D(36, kernel_size=(5,5), strides=(2,2))(convs)
+    convs = BatchNormalization()(convs)
+    convs = Activation('relu')(convs)
 
-    convs = Conv2D(48, kernel_size=(5,5), strides=(2,2), activation='relu')(convs)
-    #convs = BatchNormalization()(convs)
-    #convs = Activation('relu')(convs)
+    convs = Conv2D(48, kernel_size=(5,5), strides=(2,2))(convs)
+    convs = BatchNormalization()(convs)
+    convs = Activation('relu')(convs)
 
-    convs = Conv2D(64, kernel_size=(3,3), activation='relu')(convs)
-    #convs = BatchNormalization()(convs)
-    #convs = Activation('relu')(convs)
+    convs = Conv2D(64, kernel_size=(3,3))(convs)
+    convs = BatchNormalization()(convs)
+    convs = Activation('relu')(convs)
 
-    convs = Conv2D(64, kernel_size=(3,3), activation='relu')(convs)
-    #convs = BatchNormalization()(convs)
-    #convs = Activation('relu')(convs)
+    convs = Conv2D(64, kernel_size=(3,3))(convs)
+    convs = BatchNormalization()(convs)
+    convs = Activation('relu')(convs)
 
     drop = Dropout(0.5)(convs)
     f = Flatten()(drop)
@@ -68,11 +68,11 @@ def build_model():
 
 def train_model(model, X_train, X_valid, Y_train, Y_valid):
     #Save only the best model in the validation loss
-    checkpoint = ModelCheckpoint('track1_20_epochs_elu.h5', monitor='val_loss', save_best_only=True)
+    checkpoint = ModelCheckpoint('track2_30_epochs.h5', monitor='val_loss', save_best_only=True)
 
     #Some hyperparameters
-    epochs = 20
-    batch_size = 64
+    epochs = 30
+    batch_size = 128
     it_per_epoch = np.ceil(len(X_train) / batch_size)
 
     model.fit_generator(TU.batch_generator(X_train, Y_train, batch_size, is_training=True),
@@ -89,20 +89,9 @@ def train_model(model, X_train, X_valid, Y_train, Y_valid):
 if __name__ == '__main__':
     X_train, X_valid, Y_train, Y_valid = load_data('driving_log.csv')
 
-    #print('X_train shape: ',X_train.shape)
-    #print('Y_train shape:', Y_train.shape)
-    #print('X_valid shape:', X_valid.shape)
-    #print('Y_valid shape:', Y_valid.shape)
-    #print(len(X_train))
-    #img = X_train[0]
-    #print(img.shape)
-    #center, left, right = X_train[1]
-    #print(center)
-    #print(left)
-    #print(right)
     model = build_model()
     #model.save('no_train.h5')
-    model = load_model('no_train.h5')
+    #model = load_model('no_train.h5')
 
     train_model(model, X_train, X_valid, Y_train, Y_valid)
     #im = np.zeros((66,200,3))

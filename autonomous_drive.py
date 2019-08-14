@@ -24,8 +24,10 @@ def send_control(steering_angle, throttle):
                 data={'steering_angle': steering_angle.__str__(), 'throttle': throttle.__str__()},
                 skip_sid=True)
 
-MAX_SPEED = 25
-MIN_SPEED = 15
+#MAX_SPEED = 25
+#MIN_SPEED = 15
+MAX_SPEED = 10
+MIN_SPEED = 5
 
 @server.on('telemetry')
 def telemetry(sid, data):
@@ -58,6 +60,6 @@ def telemetry(sid, data):
         server.emit("manual", data={}, skip_sid=True)
 
 if __name__ == '__main__':
-    model = load_model("track1_20_epochs_elu.h5")
+    model = load_model("track2_30_epochs_BN.h5")
     app = socketio.Middleware(server, app)
     eventlet.wsgi.server(eventlet.listen(('', 4567)), app)
