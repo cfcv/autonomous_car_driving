@@ -1,7 +1,7 @@
 # autonomous_car_driving
 ## Introduction
-The goal of this project was implement the NVIDIA paper:
-using behavioral cloning to make an End-to-End self-driving car with the Udacity simulator:
+The goal of this project was implement the [NVIDIA paper](https://images.nvidia.com/content/tegra/automotive/images/2016/solutions/pdf/end-to-end-dl-using-px.pdf)
+using behavioral cloning to make an End-to-End self-driving car with the Udacity [simulator](https://github.com/udacity/self-driving-car-sim) 
 
 ## Track 1
 *   The Udacity self-driving car simulator provides two tracks, the track 1 is the easy one. So we drive the car manually to get data(images from the cameras and steering angles)from 3 to 4 laps.
