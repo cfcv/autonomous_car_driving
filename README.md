@@ -16,4 +16,9 @@ what gave me a good result but the car was not able to do the final right turn b
 is the result:
 
 ## Track 2
-* 
+* This track is much harder compared to the track 1, because it has a lot of sharp turns and shaddows in the road. Here i modified the pilotNet replacing the elu activation by a relu and using batchNormalization in each layer.
+Check out the result:
+
+
+* Now the challenge is to make the car stay in only one lane. I've trained the same model with the data of only one lane but i had to help manually the car to make three turns in the road. Until now the throttle was calculated using the steering angle and the max speed, some turns that the car is not able to do is because it does not desacelerate enought. With that in mind
+i modified the model to it predict not only the steering angle but also the throttle.
