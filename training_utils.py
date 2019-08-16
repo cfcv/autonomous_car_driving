@@ -1,5 +1,6 @@
 import cv2
 import numpy as np
+import random
 import matplotlib.image as mpimg
 
 def pre_process(image):
@@ -96,17 +97,26 @@ def batch_generator(image_paths, steering_angles, batch_size, is_training):
     #initialize the input and expected output to return
     X = np.empty([batch_size, 70, 200, 3])
     Y = np.empty(batch_size)
+    
+    current_example = 0
+    new_epoch = False
+    index_vector = list(range(image_paths.shape[0]))
+    
+    #print('FIRST SHUFFLE')
+    random.shuffle(index_vector)
 
     while True:
-        #Put image per image in the batch array X
-        #So when count == batch_size we've got out batch complete
-        count = 0
 
+        if(new_epoch):
+            random.shuffle(index_vector)
+            new_epoch = False
+            current_example = 0
         #Go through all the image paths randomly
-        for index in np.random.permutation(image_paths.shape[0]):
+        #for index in np.random.permutation(image_paths.shape[0]):
+        for index in range(batch_size):
             #get the tree image paths(inputs) and the steering angle(expected output)
-            center, left, right = image_paths[index]
-            steering = steering_angles[index]
+            center, left, right = image_paths[index_vector[current_example]]
+            steering = steering_angles[index_vector[current_example]]
 
             #data augmentation
             if(is_training and np.random.rand() < 0.6):
@@ -115,11 +125,12 @@ def batch_generator(image_paths, steering_angles, batch_size, is_training):
             else:
                 image = mpimg.imread(center)
             
-            X[count] = pre_process(image)
-            Y[count] = steering
+            X[index] = pre_process(image)
+            Y[index] = steering
 
-            count += 1
-            if(count == batch_size):
-                break
-        
+            current_example += 1
+            if(current_example == image_paths.shape[0]):
+                new_epoch = True
+                current_example = 0 
+
         yield X, Y

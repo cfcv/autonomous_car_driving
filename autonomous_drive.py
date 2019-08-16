@@ -24,10 +24,8 @@ def send_control(steering_angle, throttle):
                 data={'steering_angle': steering_angle.__str__(), 'throttle': throttle.__str__()},
                 skip_sid=True)
 
-#MAX_SPEED = 25
-#MIN_SPEED = 15
-MAX_SPEED = 10
-MIN_SPEED = 5
+MAX_SPEED = 25
+MIN_SPEED = 10
 
 @server.on('telemetry')
 def telemetry(sid, data):
@@ -41,18 +39,27 @@ def telemetry(sid, data):
         image = np.asarray(image)
         image = TU.pre_process(image)
         image = np.array([image]) #get a 4D tensor
-        #print(image.shape)
-        #plt.imshow(image)
-        #plt.show()
         
-        #return
+        
         if(speed > MAX_SPEED):
             limit = MIN_SPEED
         else:
             limit = MAX_SPEED
 
         steering_angle = float(model.predict(image, batch_size=1))
-        throttle = 1.0 - steering_angle**2 - (speed/MAX_SPEED)**2
+        throttle = np.clip(1.0 - abs(steering_angle) - (speed/limit)**2, -1.0, 1.0)
+        
+        #------------------ only for track 2 ------------------
+        steering_angle *= 1.5
+
+        throttle = 1.0 - steering_angle**2 - (speed/limit)**2
+        if(speed < 0.4):
+            throttle = - throttle 
+        elif(speed < 4):
+            print('ENTROU')
+            throttle = min(throttle + 0.3, 0.9)
+        #------------------
+
         print('{} {} {}'.format(steering_angle, throttle, speed))
         
         send_control(steering_angle, throttle)

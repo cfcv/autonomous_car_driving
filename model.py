@@ -22,7 +22,7 @@ def load_data(path_to_csv):
     output_steering = data['steering'].values
 
     #Split the data into train and validation. train ~= 80% and validation ~= 20%
-    input_training, input_valid, output_training, output_valid = train_test_split(images_input, output_steering, test_size=686)
+    input_training, input_valid, output_training, output_valid = train_test_split(images_input, output_steering, test_size=300)
 
     return input_training, input_valid, output_training, output_valid
 
@@ -68,12 +68,16 @@ def build_model():
 
 def train_model(model, X_train, X_valid, Y_train, Y_valid):
     #Save only the best model in the validation loss
-    checkpoint = ModelCheckpoint('track2_30_epochs.h5', monitor='val_loss', save_best_only=True)
+    checkpoint = ModelCheckpoint('track2_30_epochs_BN.h5', monitor='val_loss', save_best_only=True)
 
     #Some hyperparameters
     epochs = 30
-    batch_size = 128
+    batch_size = 64
     it_per_epoch = np.ceil(len(X_train) / batch_size)
+
+    print('Train size: ', X_train.shape[0])
+    print('Validation size: ', X_valid.shape[0])
+    print('Number of iterations:', it_per_epoch)
 
     model.fit_generator(TU.batch_generator(X_train, Y_train, batch_size, is_training=True),
                         steps_per_epoch=it_per_epoch,
@@ -82,7 +86,9 @@ def train_model(model, X_train, X_valid, Y_train, Y_valid):
                         callbacks=[checkpoint],
                         validation_data=TU.batch_generator(X_valid, Y_valid, batch_size, is_training=False),
                         nb_val_samples=len(X_valid),
-                        verbose=2)
+                        verbose=1)
+    
+    #model.save('track2_final.h5')
 
 
 #---------- Main ----------
@@ -94,7 +100,3 @@ if __name__ == '__main__':
     #model = load_model('no_train.h5')
 
     train_model(model, X_train, X_valid, Y_train, Y_valid)
-    #im = np.zeros((66,200,3))
-    #a = im[60:140,:]
-    #im = pre_process(im)
-    #print(a.shape)
