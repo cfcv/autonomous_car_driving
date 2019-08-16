@@ -15,7 +15,7 @@ what gave me a good result but the car was not able to do the final right turn b
 *   To correct this data imbalance problem i used data augmentation and this
 is the result:
 
-[![Watch the video](https://www.youtube.com/watch?v=LC6WGWp_Yik&t=6s)](https://www.youtube.com/watch?v=LC6WGWp_Yik&t=6s)
+[![Watch the video](https://www.youtube.com/watch?v=LC6WGWp_Yik&t=6s)](https://youtu.be/LC6WGWp_Yik&t=6s)
 
 ## Track 2
 * This track is much harder compared to the track 1, because it has a lot of sharp turns and shaddows in the road. Here i modified the pilotNet replacing the elu activation by a relu and using batchNormalization in each layer. I trained this model with an one lap data and modified the throttle equation to:
