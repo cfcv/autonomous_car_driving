@@ -47,12 +47,12 @@ def telemetry(sid, data):
             limit = MAX_SPEED
 
         steering_angle = float(model.predict(image, batch_size=1))
-        throttle = np.clip(1.0 - abs(steering_angle) - (speed/limit)**2, -1.0, 1.0)
+        throttle = 1.0 - steering_angle**2 - (speed/limit)**2
         
         #------------------ only for track 2 ------------------
         steering_angle *= 1.5
+        throttle = np.clip(1.0 - abs(steering_angle) - (speed/limit)**2, -1.0, 1.0)
 
-        throttle = 1.0 - steering_angle**2 - (speed/limit)**2
         if(speed < 0.4):
             throttle = - throttle 
         elif(speed < 4):
@@ -67,6 +67,6 @@ def telemetry(sid, data):
         server.emit("manual", data={}, skip_sid=True)
 
 if __name__ == '__main__':
-    model = load_model("track2_30_epochs_BN.h5")
+    model = load_model("models/track2_30_epochs_BN.h5")
     app = socketio.Middleware(server, app)
     eventlet.wsgi.server(eventlet.listen(('', 4567)), app)
