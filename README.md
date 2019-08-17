@@ -14,9 +14,9 @@ what gave me a good result but the car was not able to do the final right turn b
 
 *   To correct this data imbalance problem i used data augmentation: x and y translation, horrizontal mirroing, random shadows and bright.
 Check out the result by clicking in the image bellow:
-
+<div style='text-align:center'>
 [![Watch the video](http://i3.ytimg.com/vi/LC6WGWp_Yik/hqdefault.jpg)](https://www.youtube.com/watch?v=LC6WGWp_Yik&t=6s)
-
+</div>
 ## Track 2
 * This track is much harder compared to the track 1, because it has a lot of sharp turns and shaddows in the road. Here i modified the pilotNet replacing the elu activation by a relu and using batchNormalization in each layer. I trained this model with an one lap data and knowing that this track has several sharp turns i modified the throttle equation f
 rom: throttle = 1.0 - steering_angle**2 - (speed/limit)**2
