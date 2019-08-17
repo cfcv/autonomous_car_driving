@@ -18,9 +18,9 @@ Check out the result by clicking in the image bellow:
 [![Watch the video](http://i3.ytimg.com/vi/LC6WGWp_Yik/hqdefault.jpg)](https://www.youtube.com/watch?v=LC6WGWp_Yik&t=6s)
 
 ## Track 2
-* This track is much harder compared to the track 1, because it has a lot of sharp turns and shaddows in the road. Here i modified the pilotNet replacing the elu activation by a relu and using batchNormalization in each layer. I trained this model with an one lap data and knowing that this track has several sharp turns i modified the throttle equation\ 
-from: ```throttle = 1.0 - steering_angle**2 - (speed/limit)**2```
-to:  ```throttle = np.clip(1.0 - abs(steering_angle) - (speed/limit)**2, -1.0, 1.0)```\
+* This track is much harder compared to the track 1, because it has a lot of sharp turns and shaddows in the road. Here i modified the pilotNet replacing the elu activation by a relu and using batchNormalization in each layer. I trained this model with an one lap data and knowing that this track has several sharp turns i modified the throttle equation   
+from: ```throttle = 1.0 - steering_angle**2 - (speed/limit)**2```  
+to:  ```throttle = np.clip(1.0 - abs(steering_angle) - (speed/limit)**2, -1.0, 1.0)```  
 
 so the car will desacelerate more to make the turn and and i multiplied the predicted steering_angle by 1.5 to make the car turn more.
 Check out the result by clicking in the image bellow:
