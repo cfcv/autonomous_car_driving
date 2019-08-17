@@ -1,6 +1,6 @@
 # autonomous_car_driving
 ## Introduction
-The goal of this project was implement the [NVIDIA paper](https://images.nvidia.com/content/tegra/automotive/images/2016/solutions/pdf/end-to-end-dl-using-px.pdf)
+The goal of this project was to implement the [NVIDIA paper](https://images.nvidia.com/content/tegra/automotive/images/2016/solutions/pdf/end-to-end-dl-using-px.pdf)
 using behavioral cloning to make an End-to-End self-driving car with the Udacity [simulator](https://github.com/udacity/self-driving-car-sim) 
 
 ## Track 1
@@ -10,7 +10,7 @@ using behavioral cloning to make an End-to-End self-driving car with the Udacity
 try to predict the respective steering angle, so it will be the output of the model
 
 *   With this data, i trained the pilotNet for 20 epochs,
-what gave me a good result but the car was not able to do the final right turn because of the data imbalance of the training set. In this track there are much more left turns than right turns so almost all the training examples have a negative output(steering angle), thus the probability of the model output a negative value(left turn) is much higher than a positive value(right turn).
+what gave me a good result but the car was not able to do the final right turn because of the data imbalance of the training set. In this track there are much more left turns than right turns so almost all the training examples have a negative output(steering angle), thus the probability of the model output a negative value(left turn) is much higher than a positive value(right turn). Besides, there are few turns, so the majority of the steering angles outputs are around zero and thus the model will be biased to output small values.
 
 *   To correct this data imbalance problem i used data augmentation: x and y translation, horrizontal mirroing, random shadows and bright.
 Check out the result by clicking in the image bellow:
@@ -22,7 +22,7 @@ Check out the result by clicking in the image bellow:
 from: ```throttle = 1.0 - steering_angle**2 - (speed/limit)**2```  
 to:  ```throttle = np.clip(1.0 - abs(steering_angle) - (speed/limit)**2, -1.0, 1.0)```  
 
-so the car will desacelerate more to make the turn and and i multiplied the predicted steering_angle by 1.5 to make the car turn more.
+so the car will desacelerate more to make a sharp turn and and i multiplied the predicted steering_angle by 1.5 to make the car turn more.
 Check out the result by clicking in the image bellow:
 
 [![Watch the video](http://i3.ytimg.com/vi/VCH0dpJ3Rh4/hqdefault.jpg)](https://www.youtube.com/watch?v=VCH0dpJ3Rh4)
